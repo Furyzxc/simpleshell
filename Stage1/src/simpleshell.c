@@ -1,33 +1,54 @@
 #include <stdio.h>
-#include "utilities/dirs.h"
-#include "utilities/structures.h"
-#include "utilities/pwd.h"
+#include <string.h>
 #include "utilities/cd.h"
 #include "utilities/env.h"
+#include "utilities/structures.h"
+#include "utilities/pwd.h"
+#include "utilities/init.h"
 #include "utilities/clr.h"
+#include "utilities/split.h"
+#include "utilities/environ.h"
+#include "utilities/slice.h"
+#include "utilities/echo.h"
 
-int main(int argc, char * argv[]){
-  Directory *home_dir = mkdir("Home", NULL);
+int main(){
+  initShell();
+  print_all_subdirectories("home");
+  while (1) {
 
-  Directory *Downloads = mkdir("Downloads", home_dir);
-  Directory *photos = mkdir("photos", Downloads);
+    char input[1024];
 
-  Directory *CSC1021 = mkdir("CSC1021", home_dir);
-  Directory *week1 = mkdir("week1", CSC1021);
-  Directory *week2 = mkdir("week2", CSC1021);
-  Directory *week3 = mkdir("week3", CSC1021);
-  Directory *week4 = mkdir("week4", CSC1021);
-  Directory *week5 = mkdir("week5", CSC1021);
+    printf(">");
+    fgets(input, sizeof(input), stdin);
+    input[strcspn(input, "\n")] = '\0';
 
-  ENV *env = getEnvInstance();
-  env->setValue(env, "HOME", home_dir->name);
-  env->setValue(env, "PWD", home_dir->name);
+    char ** args = split(input, ' ');
 
-  char path[] = "Downloads/../Downloads/./photos";
-  cd(path, home_dir);
-  printf("%s\n", env->getValue(env, "PWD"));
-  //print_all_subdirectories(home_dir, "");
+    if (args[0] != NULL) {
+      if (strcmp(args[0], "quit") == 0) {
+        break;
+      }
+      else if (strcmp(args[0], "cd") == 0) {
+        cd(args[1]);
+      }
+      else if (strcmp(args[0], "pwd") == 0) {
+        pwd();
+      }
+      else if (strcmp(args[0], "clr") == 0) {
+        clr();
+      }
+      else if (strcmp(args[0], "environ") == 0) {
+        environ();
+      }
+      else if (strcmp(args[0], "echo") == 0) {
+        echo(slice_from(args, 1));
+      }
+    }
+    for (int i = 0; args[i] != NULL; i++)
+      free(args[i]);
+    free(args);
+  }
 
-  free(env);
+
   return 0;
 }

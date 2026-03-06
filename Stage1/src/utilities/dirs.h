@@ -20,15 +20,50 @@ Directory * mkdir(char *name, Directory *parent) {
   return dir;
 }
 
+Directory *getHomeDirectory() {
+  static Directory home_dir;
+  static int initialized = 0;
+  if (!initialized) {
+    strcpy(home_dir.name, "home");
+    home_dir.parent = NULL;
+    initialized = 1;
+  }
 
-void print_all_subdirectories(Directory * dir, const char *paths) {
-  char *new_path = malloc(strlen(paths) + strlen(dir->name) + 2);
-  strcpy(new_path, paths);
+  return &home_dir;
+}
+
+
+Directory *getDirFromPath(char * path) {
+  Directory *home_dir = getHomeDirectory();
+  char pwd_path[1024];
+  strcpy(pwd_path, path);
+  char *paths[20];
+  paths[0] = strtok(pwd_path, "/");
+
+  int i = 1;
+  while ((paths[i] = strtok(NULL, "/")) != NULL) {
+    i++;
+  }
+
+  Directory *curr_dir = home_dir;
+  for(int j = 0; j < i; j++) {
+    for (int c = 0; c < curr_dir->child_count; c++) {
+      if (strcmp(curr_dir->children[c]->name, paths[j]) == 0) {
+        curr_dir = curr_dir->children[c];
+      }
+    }
+  }
+  return curr_dir;
+}
+
+void print_all_subdirectoriess(Directory *dir, char *path) {
+  char *new_path = malloc(strlen(path) + strlen(dir->name) + 2);
+  strcpy(new_path, path);
   strcat(new_path, "/");
   strcat(new_path, dir->name);
   if (dir->child_count) {
     for (int i = 0; i < dir->child_count; i++) {
-      print_all_subdirectories(dir->children[i], new_path);
+      print_all_subdirectoriess(dir->children[i], new_path);
     }
   }
   else {
@@ -37,4 +72,45 @@ void print_all_subdirectories(Directory * dir, const char *paths) {
 
   free(new_path);
 }
+
+
+void print_all_subdirectories(char * path) {
+  Directory *dir = getDirFromPath(path);
+  print_all_subdirectoriess(dir, "");
+}
+
+char *getPath(Directory *dir) {
+    // 1. Collect directories from child to root
+    Directory *stack[100]; // assume max 100 levels
+    int count = 0;
+
+    Directory *tmp = dir;
+    while (tmp != NULL) {
+        stack[count++] = tmp;
+        tmp = tmp->parent;
+    }
+
+    // 2. Calculate total length
+    size_t total_len = 0;
+    for (int i = count - 1; i >= 0; i--) {
+        total_len += strlen(stack[i]->name) + 1; // +1 for '/'
+    }
+
+    // 3. Allocate buffer
+    char *path = malloc(total_len + 1);
+    if (!path) return NULL;
+
+    path[0] = '\0';
+
+    // 4. Concatenate from root to child
+    for (int i = count - 1; i >= 0; i--) {
+        strcat(path, "/");
+        strcat(path, stack[i]->name);
+    }
+
+    return path;
+}
+
+
+
 #endif
