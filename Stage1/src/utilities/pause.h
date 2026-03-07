@@ -1,8 +1,13 @@
 #include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include <string.h>
+#ifndef PAUSE_H
+#define PAUSE_H
+void pause() {
+  int character = getchar();
 
-
-void pause() [
-
+  while (character != '\n') {
+    character = getchar();
+  }
 }
+
+#endif
