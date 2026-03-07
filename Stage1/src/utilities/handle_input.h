@@ -45,7 +45,9 @@ int commands_handler(char **args) {
       environ();
     }
     else if (strcmp(args[0], "echo") == 0) {
-      echo(slice_from(args, 1));
+      if (args[1] != NULL) {
+        echo(slice_from(args, 1));
+      }
     }
     else if (strcmp(args[0], "help") == 0) {
       help();
