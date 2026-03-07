@@ -12,6 +12,7 @@
 #include "utilities/echo.h"
 #include "utilities/pause.h"
 #include "utilities/help.h"
+#include "utilities/dir.h"
 
 int main(){
   initShell();
@@ -38,6 +39,9 @@ int main(){
       }
       else if (strcmp(args[0], "clr") == 0) {
         clr();
+      }
+      else if (strcmp(args[0], "dir") == 0) {
+        dir();
       }
       else if (strcmp(args[0], "environ") == 0) {
         environ();

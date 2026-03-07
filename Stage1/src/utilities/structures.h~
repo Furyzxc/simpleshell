@@ -9,7 +9,7 @@ typedef struct Directory {
     char owner[50];
     char group[50];
     int size;
-    time_t last_modified;
+    time_t last_modified[20];
     struct Directory *parent;
     struct Directory *children[10];
     int child_count;

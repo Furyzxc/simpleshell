@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "structures.h"
-#include <time.h>
+
 #define MAX_CHILDREN 10
 
 #ifndef DIRS_H
@@ -18,7 +18,7 @@ Directory * mkdir(char *name, Directory *parent) {
   dir->hard_links = 0;
   dir->size = 4096;
   dir-> child_count = 0;
-  dir->last_modified = time(NULL);
+
   dir->parent = parent;
   if (parent) {
     parent->children[parent->child_count++] = dir;
