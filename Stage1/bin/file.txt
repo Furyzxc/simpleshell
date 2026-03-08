@@ -1,0 +1,54 @@
+echo Starting shell test
+
+echo ---------------------------
+echo Testing pwd
+pwd
+
+echo ---------------------------
+echo Testing cd to home
+cd
+pwd
+
+echo ---------------------------
+echo Testing cd to parent directory
+cd ..
+pwd
+
+echo ---------------------------
+echo Testing cd to invalid directory
+cd this_directory_does_not_exist
+
+echo ---------------------------
+echo Testing dir current directory
+dir .
+
+echo ---------------------------
+echo Testing dir parent directory
+dir ..
+
+echo ---------------------------
+echo Testing dir invalid directory
+dir fake_directory
+
+echo ---------------------------
+echo Testing echo command
+echo Hello World
+echo Testing multiple words in echo command
+
+echo ---------------------------
+echo Testing environ command
+environ
+
+echo ---------------------------
+echo Testing clr command
+clr
+
+echo ---------------------------
+echo Testing pause command
+pause
+
+echo ---------------------------
+echo Test finished
+
+quit
+

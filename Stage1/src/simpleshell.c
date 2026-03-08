@@ -3,7 +3,7 @@
 #include "utilities/handle_input.h"
 
 int main(int argc, char * argv[]){
-  initShell();
+  init();
 
   if (argc == 2) {
     handle_input(argv[1]);

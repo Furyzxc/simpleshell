@@ -1,48 +1,6 @@
-#include <stdio.h>
-#include "structures.h"
-#include "env.h"
-#include <stdlib.h>
-#include <string.h>
-#include "split.h"
-#include "dirs.h"
+#ifndef CD_H
+#define CD_H
 
+void cd(char *path);
 
-void cd(char *path) {
-  ENV *env = getEnvInstance();
-  Directory *curr_dir;
-  if (path == NULL) {
-    curr_dir = getDirFromPath(env->getValue(env, "HOME"));
-  }
-  else {
-    curr_dir = getDirFromPath(env->getValue(env, "PWD"));
-    char **new_dir_paths = split(path, '/');
-    for (int i = 0; new_dir_paths[i] != NULL; i++) {
-      if (strcmp(new_dir_paths[i], "..") == 0) {
-        if (curr_dir->parent) {
-          curr_dir = curr_dir->parent;
-        }
-      }
-
-      else if (strcmp(new_dir_paths[i], ".") == 0) {}
-
-      else {
-        int found = 0;
-        for (int j = 0; j < curr_dir->child_count; j++) {
-          Directory *subdir = curr_dir->children[j];
-          if (strcmp(subdir->name, new_dir_paths[i]) == 0) {
-            curr_dir = subdir;
-            found = 1;
-            break;
-          }
-        }
-
-        if (!found) {
-          printf("simpleshell: cd: %s: No such file or directory", path);
-        }
-      }
-    }
-  }
-  char * fullpath = getPath(curr_dir);
-  env->setValue(env, "PWD", fullpath);
-  free(fullpath);
-}
+#endif

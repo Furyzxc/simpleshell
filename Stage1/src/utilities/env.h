@@ -1,83 +1,33 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #ifndef ENV_H
 #define ENV_H
 
+#include <stddef.h>
+
+#define MAX_VARS 100
+#define MAX_NAME 256
+#define MAX_VALUE 256
+
 typedef struct Variable {
-  char name[256];
-  char value[256];
+  char name[MAX_NAME];
+  char value[MAX_VALUE];
 } Variable;
 
 typedef struct ENV ENV;
 
 typedef struct ENV {
-  Variable envs[100];
+  Variable envs[MAX_VARS];
   int count;
 
-  void (*setValue)(struct ENV*, const char*, const char*);
-  char* (*getValue)(struct ENV*, const char*);
-  char **(*getNames)(struct ENV*);
+  void (*set_value)(ENV*, const char*, const char*);
+  char* (*get_value)(ENV*, const char*);
+  char **(*get_names)(ENV*);
 } ENV;
 
-
-void setValue(ENV *e, const char*name, const char*value) {
-  int found = 0;
-  for (int i = 0; i < e->count; i++) {
-    if(strcmp(e->envs[i].name, name) == 0) {
-      strcpy(e->envs[i].value, value);
-      found = 1;
-    }
-  }
-  if (!found) {
-    strcpy(e->envs[e->count].name, name);
-    strcpy(e->envs[e->count++].value, value);
-  }
-}
-
-char *getValue(struct ENV *e, const char *name) {
-  for (int i = 0; i < e->count; i++) {
-    if (strcmp(e->envs[i].name, name) == 0) {
-      char *copy = malloc(strlen(e->envs[i].value) + 1);
-      if (!copy) return NULL; // allocation failed
-      strcpy(copy, e->envs[i].value);
-      return copy; // caller must free this copy
-    }
-  }
-  return NULL; // not found
-}
-
-char **getNames(ENV *e) {
-  if (!e || e->count == 0) return NULL;
-
-  char **names = malloc((e->count + 1) * sizeof(char *));
-  if (!names) return NULL;
-
-  for (int i = 0; i < e->count; i++) {
-    names[i] = strdup(e->envs[i].name); // copy each name
-    if (!names[i]) {
-       // free previously allocated strings if strdup fails
-       for (int j = 0; j < i; j++) free(names[j]);
-         free(names);
-         return NULL;
-      }
-  }
-
-  names[e->count] = NULL;
-  return names;
-}
+ENV* get_env_instance();
 
 
-ENV* getEnvInstance() {
-  static ENV *instance = NULL;
-  if (instance == NULL) {
-    instance = malloc(sizeof(ENV));
-    instance->count = 0;
-    instance->setValue = setValue;
-    instance->getValue = getValue;
-    instance->getNames = getNames;
-  }
-  return instance;
-}
-
+// Usage:
+//    ENV *env = getEnvInstance();
+//    env->setValue(env, "PWD", "/home");
+//    char *pwd = env->getValue(env, "PWD");
 #endif

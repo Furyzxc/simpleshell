@@ -4,31 +4,52 @@
 CC = gcc
 
 # Compiler flags
-CFLAGS = -Wall -Wextra -g -std=c11
+CFLAGS = -Wall -Wextra -g -std=c11   # -g enables debugging symbols
 
-# Source files (find all .c files recursively)
-SRCS := $(shell find . -name "*.c")
+# Source directory
+SRC_DIR = .
 
-# Object files
-OBJS := $(SRCS:.c=.o)
+# Build directory for object files
+OBJ_DIR = obj
+
+# Output directory for executable
+BIN_DIR = ../bin
+
+# Source files
+SRCS := $(shell find $(SRC_DIR) -name "*.c")
+
+# Object files (mirror source structure in obj folder)
+OBJS := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 
 # Executable
-TARGET = simpleshell
+TARGET = $(BIN_DIR)/simpleshell
 
 # Default target
 all: $(TARGET)
 
 # Build executable
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+$(TARGET): $(OBJS) | $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $(OBJS)
 
 # Compile .c to .o
-%.o: %.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+# Create directories if they don't exist
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+# Debug target (build with debug flags, ready for gdb)
+debug: CFLAGS += -DDEBUG
+debug: clean all
 
 # Clean up
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -rf $(OBJ_DIR) $(BIN_DIR)/simpleshell
 
 # Phony targets
-.PHONY: all clean
+.PHONY: all clean debug

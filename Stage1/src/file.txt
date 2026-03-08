@@ -1,9 +1,0 @@
-cd Downloads
-pwd
-cd photos
-pwd
-cd ../..
-dir
-echo "Hello world"
-environ
-quit
