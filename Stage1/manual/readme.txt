@@ -2,7 +2,8 @@ SimpleShell User Manual
 
 cd <directory>
     Changes the current directory.
-
+pwd
+    Present working directory.
 clr
     Clears the screen.
 

@@ -5,9 +5,10 @@
 
 
 void set_value(ENV *e, const char *name, const char *value) {
+    // sets value for env
     if (!e || !name || !value) return;
 
-    int found = 0;
+    int found = 0; // checks if found then update value
     for (int i = 0; i < e->count; i++) {
         if (strcmp(e->envs[i].name, name) == 0) {
             strncpy(e->envs[i].value, value, MAX_VALUE - 1);
@@ -17,7 +18,7 @@ void set_value(ENV *e, const char *name, const char *value) {
         }
     }
 
-    if (!found && e->count < MAX_VARS) {
+    if (!found && e->count < MAX_VARS) { // if not found create new one
         strncpy(e->envs[e->count].name, name, MAX_NAME - 1);
         e->envs[e->count].name[MAX_NAME - 1] = '\0';
 
@@ -29,9 +30,10 @@ void set_value(ENV *e, const char *name, const char *value) {
 }
 
 char *get_value(ENV *e, const char *name) {
-    if (!e || !name) return NULL;
+    // gets value for env for name
+    if (!e || !name) return NULL; // if no name or env given return null
 
-    for (int i = 0; i < e->count; i++) {
+    for (int i = 0; i < e->count; i++) { // checks for each name and if its same then return value
         if (e->envs[i].name[0] != '\0' && strcmp(e->envs[i].name, name) == 0) {
             char *copy = malloc(strlen(e->envs[i].value) + 1);
             if (!copy) return NULL;

@@ -7,6 +7,7 @@
 #include "utilities/dir.h"
 
 void print(Directory *d, char *name) {
+  // function to output directory in ls -al format
   char *name_to_print = d->name;
   if (strcmp(name, "..") == 0 || strcmp(name, ".") == 0) {
     name_to_print = name;
@@ -28,24 +29,24 @@ void dir(char * path){
   ENV *env = get_env_instance();
   Directory *pwd = NULL;
 
-  if (path) {
+  if (path) { // if path, get the dir
     pwd = get_dir_from_pwd(path);
-  } else {
+  } else { // if no path then get present dir
     path = env->get_value(env, "PWD");
     pwd = get_dir_from_path(path);
   }
 
-  if (!pwd) {
+  if (!pwd) {// not found
     printf("dir: cannot access '%s': No such directory\n", path);
     return;
   }
 
-  print(pwd, ".");
+  print(pwd, "."); // current dir
 
-  if (pwd->parent) {
+  if (pwd->parent) { // parent dir
     print(pwd->parent, "..");
   }
-  for (int i = 0; i < pwd->child_count; i++) {
+  for (int i = 0; i < pwd->child_count; i++) { // children
     print(pwd->children[i], "");
   }
 }

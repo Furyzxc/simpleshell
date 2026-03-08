@@ -6,13 +6,16 @@
 #include "utilities/init.h"
 
 void init(){
+  // actions to initiate the shell
   ENV *env = get_env_instance();
+  // setting env values
   env->set_value(env, "HOME", "home");
   env->set_value(env, "PWD", "home");
   env->set_value(env, "SHELL", "bin/simpleshell");
   env->set_value(env, "USER", "serhii");
   env->set_value(env, "LANG", "en_US.UTF-8");
 
+  // making directories
   Directory *home_dir = get_home_dir();
 
   Directory *Downloads = mkdir("Downloads", home_dir);

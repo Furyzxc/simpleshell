@@ -11,19 +11,21 @@
 void cd(char *path) {
   ENV *env = get_env_instance();
   Directory *curr_dir;
-  if (path == NULL) {
+  if (path == NULL) { // if no path specified, then go to home directory
     curr_dir = get_dir_from_path(env->get_value(env, "HOME"));
   }
-  else {
+  else { // otherwise go to path
     curr_dir = get_dir_from_pwd(path);
   }
 
 
   if (curr_dir) {
-    char * fullpath = get_path(curr_dir);
+    // getting fullpath, eg home/Donwloads/photos
+    char * fullpath = get_path(curr_dir); 
+    // setting env value
     env->set_value(env, "PWD", fullpath);
     free(fullpath);
-  } else {
+  } else { // if not found
     printf("simpleshell: cd: %s: No such directory\n", path);
   }
 }

@@ -5,6 +5,7 @@
 
 
 char **split(const char *str, char delim) {
+  // splits str by delim and returns array of strings
     if (!str) return NULL;
 
     int count = 0;
@@ -58,6 +59,7 @@ void free_split(char **args) {
 
 
 char **slice_from(char **arr, int start) {
+  // slices an array from start index to the end
     if (!arr) return NULL;
 
     int count = 0;
@@ -74,6 +76,7 @@ char **slice_from(char **arr, int start) {
 }
 
 void free_args(char **args) {
+  // frees args from array
   if (args == NULL) return;  
 
   for (int i = 0; args[i] != NULL; i++) {
