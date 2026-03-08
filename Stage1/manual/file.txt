@@ -1,8 +1,0 @@
-cd <dir>     change the current directory
-clr          clear the screen
-dir <dir>    list the contents of directory <dir>
-environ      list all environment variables
-echo <text>  display <text> on the screen
-help         display this help manual
-pause        pause operation of the shell
-quit         quit the shell
