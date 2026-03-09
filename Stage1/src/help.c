@@ -3,7 +3,7 @@
 
 void help() {  // prints manual
   printf("cd <dir>     change the current directory\n");
-  printf("pwd          present working directory\n")
+  printf("pwd          present working directory\n");
   printf("clr          clear the screen\n");
   printf("dir <dir>    list the contents of directory <dir>\n");
   printf("environ      list all environment variables\n");

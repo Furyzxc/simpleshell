@@ -7,13 +7,13 @@ CC = gcc
 CFLAGS = -Wall -Wextra -g -std=c11   # -g enables debugging symbols
 
 # Source directory
-SRC_DIR = .
+SRC_DIR = src
 
 # Build directory for object files
-OBJ_DIR = obj
+OBJ_DIR = src/obj
 
 # Output directory for executable
-BIN_DIR = ../bin
+BIN_DIR = bin
 
 # Source files
 SRCS := $(shell find $(SRC_DIR) -name "*.c")
