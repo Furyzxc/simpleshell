@@ -111,16 +111,17 @@ void handle_input(char * filename) {
     fclose(file);
     return; // finish
   }
+  ENV *env = get_env_instance();
 // otherwise take user input
   while (1) {
-    printf("> "); // for interaction
+    printf("%s> ", env->get_value(env, "PWD")); // present working directory prompt
     if (fgets(input, sizeof(input), stdin) == NULL) break;
     char **args = helper(input);
       if (args[0] != NULL) { // if there args then handle command
         int stop = commands_handler(args);
         free_args(args);
         if (stop) break;
-    } else { 
+    } else {
       free_args(args);
     }
   }
