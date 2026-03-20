@@ -57,3 +57,4 @@ dkms.conf
 *~
 *.o
 # End of https://www.toptal.com/developers/gitignore/api/c
+simpleshell
