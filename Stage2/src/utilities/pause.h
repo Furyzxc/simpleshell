@@ -1,6 +1,6 @@
 #ifndef PAUSE_H
 #define PAUSE_H
 
-void pause();
+void pause_shell();
 
 #endif
