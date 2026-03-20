@@ -1,4 +1,5 @@
-# Makefile for SimpleShell (auto-detects .c files)
+# Serhii Ananiev, 39562 - Operating Systems Project 1
+# CSC1021/simpleshell
 
 # Compiler
 CC = gcc
