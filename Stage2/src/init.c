@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include "utilities/dirs.h"
 #include "utilities/structures.h"
 #include "utilities/pwd.h"
@@ -11,7 +12,16 @@ void init(){
   // setting env values
   env->set_value(env, "HOME", "home");
   env->set_value(env, "PWD", "home");
-  env->set_value(env, "SHELL", "bin/simpleshell");
+
+  // setting shell variable
+  char cwd[1024];
+  getcwd(cwd, sizeof(cwd));
+
+  char fullpath[1100];
+  sprintf(fullpath, "%s/simpleshell", cwd);
+
+  env->set_value(env, "shell", fullpath);
+
   env->set_value(env, "USER", "serhii");
   env->set_value(env, "LANG", "en_US.UTF-8");
 
