@@ -29,3 +29,7 @@ void cd(char *path) {
     printf("simpleshell: cd: %s: No such directory\n", path);
   }
 }
+
+/* Name: Serhii Ananiev
+   Student ID: 39561
+   I acknowledge the DCU Academic Integrity Policy */

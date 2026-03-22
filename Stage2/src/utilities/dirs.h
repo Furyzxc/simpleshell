@@ -17,3 +17,7 @@ char *get_path(Directory *dir);
 Directory * get_dir_from_pwd(char * path);
 
 #endif
+
+/* Name: Serhii Ananiev
+   Student ID: 39561
+   I acknowledge the DCU Academic Integrity Policy */

@@ -31,3 +31,7 @@ ENV* get_env_instance();
 //    env->setValue(env, "PWD", "/home");
 //    char *pwd = env->getValue(env, "PWD");
 #endif
+
+/* Name: Serhii Ananiev
+   Student ID: 39561
+   I acknowledge the DCU Academic Integrity Policy */
