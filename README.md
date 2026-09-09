@@ -1,18 +1,99 @@
-# CSC1021 Operating Systems: customshell
+# SimpleShell
 
-## Introduction
+A basic Unix-like command line interpreter written in C, supporting built-in commands, external program execution, I/O redirection, background execution, and batch mode.
 
-This is the starter repository for the _CSC1021 Operating Systems_ project entitled `customshell` and which you must complete individually. https://loop.dcu.ie/mod/assign/view.php?id=2869985
+## About
 
-## What you need to do
+SimpleShell mimics the core behavior of a Unix shell: it displays the current working directory as the prompt, interprets built-in commands directly, and delegates anything else to external programs via `fork()` and `execvp()`. Built as part of the Systems Programming module at Dublin City University.
 
-You should follow the instructions below:
+## Features
 
-1. fork (do not clone) this repository.  Once you have forked it, make your own repository private add me (Graham Healy - @healygr) as "maintainer". You must do both of these steps before adding any deliverables. Maintainer: Manage -> Members -> Invite members -> search for and select @healygr -> set Select Maximum role to maintainer -> click Invite; Private: Settings -> General -> Visibility, project features, permissions -> Project visibility = private.
-2. There are 3 folders (Stage1, Stage2, and Stage3), and within Stage1 and Stage2 there are `src`, `manual`, `bin` directories.
-3. Add your files relating to the manual/help command to the `manual` directory.
-4. Your `makefile` should build the binary and place it in the `bin` directory.
-5. For Stage3, you should only add a file named video.txt containing the link to your video submission. This folder should only contain this single file.
+- **Built-in commands** — `cd`, `clr`, `dir`, `environ`, `echo`, `help`, `pause`, `quit`
+- **External command execution** — any command not recognized internally is run as a child process
+- **I/O redirection** — supports `<`, `>`, and `>>`
+- **Background execution** — commands ending in `&` run without blocking the shell
+- **Batch mode** — execute a sequence of commands from a file
+- **Error handling** — invalid directories, missing files, unknown commands, and failed process creation are all caught with clear error messages
 
-## Other notes
-There are supporting exercises to help you with the project.  You will find them all under  [Lab04/05 on the Loop CSC1021 Site](https://loop.dcu.ie/mod/book/view.php?id=2862651). 
+## Built-in Commands
+
+| Command | Description |
+|---|---|
+| `cd [directory]` | Changes directory; prints current directory if no argument given. Updates `PWD`. |
+| `clr` | Clears the terminal screen. |
+| `dir [directory]` | Lists files in a directory (similar to `ls -al`). |
+| `environ` | Displays all environment variables. |
+| `echo [text]` | Prints text to the screen (collapses repeated whitespace). |
+| `help` | Displays the user manual via a `more`-style filter. |
+| `pause` | Pauses the shell until Enter is pressed. |
+| `quit` | Exits the shell. |
+
+## Usage
+
+### External commands
+
+Any unrecognized command is run as an external program:
+
+```bash
+ls
+gcc main.c
+cat file.txt
+```
+
+### I/O redirection
+
+```bash
+sort < names.txt        # input redirection
+ls -al > files.txt      # output redirection (overwrite)
+echo hello >> log.txt   # output redirection (append)
+```
+
+Redirection works for both built-in and external commands.
+
+### Background execution
+
+```bash
+sleep 10 &   # runs in the background, prompt returns immediately
+sleep 10     # runs in the foreground, shell waits
+```
+
+### Batch mode
+
+Run a sequence of commands from a file:
+
+```bash
+./bin/simpleshell batchfile.txt
+```
+
+Each line in the file is treated as a command; the shell exits when the file ends.
+
+## Error Handling
+
+SimpleShell detects and reports:
+- Invalid directory in `cd`
+- File not found during redirection
+- Unknown/unrecognized commands
+- Failed process creation (`fork`/`exec` errors)
+
+## Getting Started
+
+### Prerequisites
+- GCC or another C compiler
+- `make`
+- A Unix-like environment (Linux/macOS)
+
+### Build & Run
+
+```bash
+git clone https://github.com/Furyzxc/simpleshell.git
+cd simpleshell/Stage2
+make
+./bin/simpleshell
+```
+
+## Author
+
+**Serhii Ananiev**
+- Portfolio: [serhii-ananiev.netlify.app](https://serhii-ananiev.netlify.app)
+- LinkedIn: [Serhii Ananiev](https://www.linkedin.com/in/serhii-ananiev-267086195/)
+- GitHub: [Furyzxc](https://github.com/Furyzxc)
