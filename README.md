@@ -91,6 +91,10 @@ make
 ./bin/simpleshell
 ```
 
+### Code explanation
+
+[https://youtu.be/HmjEkYmf1_M](https://youtu.be/HmjEkYmf1_M)
+
 ## Author
 
 **Serhii Ananiev**
